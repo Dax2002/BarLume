@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Mia Collezione Spiritosa - Cocktail</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 { color: #d4af37; margin-bottom: 10px; }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background-color: #262626;
+            padding: 15px 0;
+            margin-bottom: 40px;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+        }
+
+        .nav-link {
+            color: #bbb;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: #d4af37;
+            color: #1a1a1a;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Card della Bottiglia */
+        .card {
+            background-color: #262626;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #333;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background: #111;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        h2 { margin: 10px 0; font-size: 1.4em; }
+
+        /* Etichette (Badge) */
+        .badge-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Colori Categorie */
+        .tipo { background-color: #444; color: #fff; }
+        .gusto-amaro { background-color: #5d4037; color: #fff; }
+        .gusto-dolce { background-color: #c2185b; color: #fff; }
+        .gusto-aspro { background-color: #afb42b; color: #000; }
+
+        p { color: #bbb; line-height: 1.5; font-size: 0.95em; }
+
+        .section-title {
+            text-align: center;
+            color: #d4af37;
+            margin: 40px auto 20px;
+            font-size: 1.8em;
+            max-width: 1200px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🍸 La Mia Cantina Digitale</h1>
+    <p>Esplora la mia selezione di alcolici e cocktail</p>
+</header>
+
+<nav class="navbar">
+    <a href="index.html" class="nav-link">Le Bottiglie</a>
+    <a href="cocktail.html" class="nav-link active">I Cocktail</a>
+</nav>
+
+<h2 class="section-title">I Cocktail</h2>
+<div class="container">
+
+    <div class="card">
+        <img src="https://www.thecocktaildb.com/images/media/drink/5n43h51504351390.jpg" alt="Margarita">
+        <h2>Margarita</h2>
+        <div class="badge-container">
+            <span class="badge tipo">Cocktail</span>
+            <span class="badge gusto-aspro">Aspro</span>
+        </div>
+        <p>Base Tequila, Cointreau e succo di lime fresco. Servito con bordo di sale.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

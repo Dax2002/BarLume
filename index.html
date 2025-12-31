@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Mia Collezione Spiritosa</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        header { text-align: center; padding: 40px 0; }
+        h1 { color: #d4af37; margin-bottom: 10px; }
+        .navbar { display: flex; justify-content: center; gap: 20px; background-color: #262626; padding: 15px 0; margin-bottom: 40px; border-top: 1px solid #333; border-bottom: 1px solid #333; }
+        .nav-link { color: #bbb; text-decoration: none; font-size: 1.1em; font-weight: bold; padding: 8px 16px; border-radius: 4px; transition: all 0.3s ease; }
+        .nav-link:hover, .nav-link.active { background-color: #d4af37; color: #1a1a1a; }
+        
+        .search-container { text-align: center; margin: 20px auto; max-width: 1200px; }
+        #searchBar { width: 100%; max-width: 600px; padding: 12px 20px; box-sizing: border-box; border: 2px solid #333; border-radius: 4px; background-color: #262626; color: #f4f4f4; font-size: 16px; }
+        #searchBar:focus { outline: none; border-color: #d4af37; }
+
+        #filter-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 1200px; margin: 20px auto; }
+        .filter-btn { background-color: #444; color: #fff; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: background-color 0.3s; }
+        .filter-btn.active { background-color: #d4af37; color: #1a1a1a; }
+
+        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .card { background-color: #262626; border-radius: 12px; padding: 20px; border: 1px solid #333; transition: transform 0.2s, opacity 0.3s; opacity: 1; }
+        .card.hidden { transform: scale(0.9); opacity: 0; display: none; }
+        .card:hover { transform: translateY(-5px); border-color: #d4af37; }
+        .card img { width: 100%; height: 200px; object-fit: contain; background: #111; border-radius: 8px; margin-bottom: 15px; }
+        h2 { margin: 10px 0; font-size: 1.4em; }
+        .badge-container { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+        .badge { padding: 5px 12px; border-radius: 20px; font-size: 0.8em; font-weight: bold; text-transform: uppercase; }
+        .badge.type { background-color: #555; color: #fff; }
+        .badge.flavor { background-color: #d4af37; color: #1a1a1a; }
+
+        .section-title { text-align: center; color: #d4af37; margin: 40px auto 20px; font-size: 1.8em; max-width: 1200px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🍸 La Mia Cantina Digitale</h1>
+    <p>Esplora la mia selezione di alcolici e cocktail</p>
+</header>
+
+<nav class="navbar">
+    <a href="index.html" class="nav-link active">Le Bottiglie</a>
+    <a href="cocktail.html" class="nav-link">I Cocktail</a>
+</nav>
+
+<div class="search-container">
+    <input type="text" id="searchBar" placeholder="Cerca per nome o gusto...">
+</div>
+
+<div id="filter-container"></div>
+
+<h2 class="section-title">Le Bottiglie</h2>
+<div id="bottle-container" class="container"></div>
+
+<script>
+const bottles = [
+    { name: "Amaro Pugliese", type: "Amaro", flavors: ["Amaro", "Erbaceo"] },
+    { name: "Amarissimo Petrus", type: "Amaro", flavors: ["Amarissimo", "Erbaceo"] },
+    { name: "Zabaglione", type: "Liquore", flavors: ["Dolce", "Uovo"] },
+    { name: "Porto", type: "Vino Liquoroso", flavors: ["Dolce", "Fruttato"] },
+    { name: "Cremovo", type: "Liquore", flavors: ["Dolce", "Uovo"] },
+    { name: "Grappa all'Arancia", type: "Grappa", flavors: ["Agrumi", "Aromatico"] },
+    { name: "Amaro Sbajato", type: "Amaro", flavors: ["Amaro", "Agrumi"] },
+    { name: "Idromele", type: "Idromele", flavors: ["Dolce", "Miele"] },
+    { name: "Grappa alle Castagne", type: "Grappa", flavors: ["Dolce", "Tostato"] },
+    { name: "Cynar", type: "Amaro", flavors: ["Amaro", "Vegetale"] },
+    { name: "China Martini", type: "Amaro", flavors: ["Amaro", "Speziato"] },
+    { name: "Montenegro", type: "Amaro", flavors: ["Dolce", "Amaro", "Agrumi"] },
+    { name: "Fernet Branca", type: "Amaro", flavors: ["Amaro", "Mentolato", "Speziato"] },
+    { name: "Grappa all'Alloro", type: "Grappa", flavors: ["Erbaceo", "Aromatico"] },
+    { name: "Alchermes", type: "Liquore", flavors: ["Dolce", "Speziato"] },
+    { name: "Sambuca", type: "Liquore", flavors: ["Anice", "Dolce"] },
+    { name: "Liquore alle Ciliegie", type: "Liquore", flavors: ["Fruttato", "Dolce"] },
+    { name: "Grappa", type: "Grappa", flavors: ["Secco"] },
+    { name: "Vodka", type: "Vodka", flavors: ["Neutro"] },
+    { name: "Liquore alla Liquirizia", type: "Liquore", flavors: ["Liquirizia", "Dolce"] },
+    { name: "Tequila Blanco", type: "Tequila", flavors: ["Agave", "Secco"] },
+    { name: "Tequila Reposado", type: "Tequila", flavors: ["Agave", "Legnoso"] },
+    { name: "Brandy Invecchiato 8 Anni", type: "Brandy", flavors: ["Invecchiato", "Legnoso"] },
+    { name: "Brandy", type: "Brandy", flavors: ["Fruttato"] },
+    { name: "Rum Scuro", type: "Rum", flavors: ["Dolce", "Melassa"] },
+    { name: "Pampero Aniversario", type: "Rum", flavors: ["Invecchiato", "Vaniglia"] },
+    { name: "Rum Bianco", type: "Rum", flavors: ["Secco", "Leggero"] },
+    { name: "Rum Scuro Dolce", type: "Rum", flavors: ["Dolce", "Speziato"] },
+    { name: "Rum Scuro Speziato", type: "Rum", flavors: ["Speziato", "Intenso"] },
+    { name: "Whisky Giapponese Yumeko", type: "Whisky", flavors: ["Morbido", "Fruttato"] },
+    { name: "The Deacon Scotch Whisky", type: "Whisky", flavors: ["Torbato", "Speziato"] },
+    { name: "Bourbon Whisky", type: "Whisky", flavors: ["Dolce", "Vaniglia"] },
+    { name: "Johnnie Walker Black Label", type: "Whisky", flavors: ["Torbato", "Affumicato"] },
+    { name: "Bushmills Black Bush", type: "Whisky", flavors: ["Fruttato", "Dolce"] },
+    { name: "Johnnie Walker Red Label", type: "Whisky", flavors: ["Speziato", "Vibrante"] },
+    { name: "MG Gin", type: "Gin", flavors: ["Secco", "Ginepro"] },
+    { name: "Apium Gin", type: "Gin", flavors: ["Erbaceo", "Sedano"] },
+    { name: "Gin ai Fiori di Ciliegio", type: "Gin", flavors: ["Floreale", "Aromatico"] },
+    { name: "No. 3 London Dry Gin", type: "Gin", flavors: ["Agrumi", "Speziato"] },
+    { name: "Gin al Limone", type: "Gin", flavors: ["Agrumi", "Limone"] },
+    { name: "Roku Gin", type: "Gin", flavors: ["Agrumi", "Floreale"] },
+    { name: "Tanqueray London Dry Gin", type: "Gin", flavors: ["Secco", "Ginepro"] },
+    { name: "Tanqueray Flor de Sevilla", type: "Gin", flavors: ["Agrumi", "Arancia"] },
+    { name: "Etsu Gin", type: "Gin", flavors: ["Floreale", "Agrumi"] },
+    { name: "Gin Piero", type: "Gin", flavors: ["Erbaceo"] },
+    { name: "Gin Affumicato", type: "Gin", flavors: ["Affumicato", "Speziato"] },
+    { name: "Bulldog Gin", type: "Gin", flavors: ["Moderno", "Speziato"] },
+    { name: "Bombay Sapphire Gin", type: "Gin", flavors: ["Speziato", "Floreale"] },
+    { name: "Angostura Bitters", type: "Bitter", flavors: ["Aromatico", "Speziato"] },
+    { name: "Angostura Orange Bitters", type: "Bitter", flavors: ["Agrumi", "Arancia"] },
+    { name: "Aroma Affumicato", type: "Aromi", flavors: ["Affumicato"] },
+    { name: "Sciroppo di Fiori di Sambuco", type: "Sciroppo", flavors: ["Floreale", "Dolce"] },
+    { name: "Sciroppo di Granatina", type: "Sciroppo", flavors: ["Fruttato", "Dolce"] },
+    { name: "Sciroppo di Zucchero", type: "Sciroppo", flavors: ["Dolce", "Neutro"] },
+    { name: "Borghetti Liquore al Caffè", type: "Liquore", flavors: ["Caffè", "Dolce"] },
+    { name: "Kahlúa", type: "Liquore", flavors: ["Caffè", "Vaniglia", "Dolce"] },
+    { name: "Liquore al Cacao", type: "Liquore", flavors: ["Cacao", "Dolce"] },
+    { name: "Maraschino", type: "Liquore", flavors: ["Ciliegia", "Mandorla"] },
+    { name: "Blue Curaçao", type: "Liquore", flavors: ["Agrumi", "Arancia Amara"] },
+    { name: "Triple Sec", type: "Liquore", flavors: ["Agrumi", "Arancia Secca"] },
+    { name: "Campari", type: "Bitter", flavors: ["Amaro", "Agrumi"] },
+    { name: "Bitter Gamondi", type: "Bitter", flavors: ["Amaro", "Erbaceo"] },
+    { name: "Punt e Mes", type: "Vermouth", flavors: ["Amaro", "Dolce"] },
+    { name: "Vermouth Sant'Orsola Rosso", type: "Vermouth", flavors: ["Rosso", "Dolce"] },
+    { name: "Vermouth Gamondi Rosso", type: "Vermouth", flavors: ["Rosso", "Speziato"] },
+    { name: "Gancia Vermouth Extra Dry", type: "Vermouth", flavors: ["Extra Dry", "Secco"] },
+    { name: "Martini Vermouth Extra Dry", type: "Vermouth", flavors: ["Extra Dry", "Secco"] },
+    { name: "Martini Vermouth Bianco", type: "Vermouth", flavors: ["Bianco", "Dolce", "Vaniglia"] },
+    { name: "Carpano Antica Formula", type: "Vermouth", flavors: ["Rosso", "Complesso", "Vaniglia"] },
+    { name: "Martini Vermouth Rosso", type: "Vermouth", flavors: ["Rosso", "Dolce"] },
+    { name: "Bitter Mazzini", type: "Bitter", flavors: ["Amaro", "Rabarbaro"] },
+    { name: "Mezcal", type: "Mezcal", flavors: ["Agave", "Affumicato"] },
+    { name: "Liquore al Rabarbaro", type: "Liquore", flavors: ["Rabarbaro", "Amaro"] },
+    { name: "Sciroppo d'Orzata", type: "Sciroppo", flavors: ["Mandorla", "Dolce"] },
+    { name: "Liquore al Frutto della Passione", type: "Liquore", flavors: ["Frutto della Passione", "Dolce"] },
+    { name: "Amaretto di Saronno", type: "Liquore", flavors: ["Mandorla", "Dolce"] },
+    { name: "Liquore alla Pesca", type: "Liquore", flavors: ["Pesca", "Dolce"] },
+    { name: "Amaro al Tartufo", type: "Amaro", flavors: ["Tartufo", "Terroso"] },
+    { name: "Coca Buton", type: "Liquore", flavors: ["Coca", "Erbaceo"] },
+    { name: "Limoncello", type: "Liquore", flavors: ["Limone", "Dolce"] },
+    { name: "Amaro del Capo Red Hot Edition", type: "Amaro", flavors: ["Piccante", "Erbaceo"] },
+    { name: "Amaro del Golfo", type: "Amaro", flavors: ["Agrumi", "Erbaceo"] },
+    { name: "Jägermeister", type: "Amaro", flavors: ["Erbaceo", "Speziato", "Anice"] },
+    { name: "Jägermeister Cold Brew Coffee", type: "Liquore", flavors: ["Caffè", "Speziato"] },
+    { name: "Prosecco", type: "Vino Frizzante", flavors: ["Secco", "Fruttato"] },
+    { name: "Tonica Indian", type: "Soft Drink", flavors: ["Amaro", "Chinino"] },
+    { name: "Tonica Mediterranea", type: "Soft Drink", flavors: ["Floreale", "Erbaceo"] },
+    { name: "Tonica al Limone", type: "Soft Drink", flavors: ["Agrumi", "Limone"] },
+    { name: "Tonica", type: "Soft Drink", flavors: ["Neutro"] },
+    { name: "Ginger Beer", type: "Soft Drink", flavors: ["Zenzero", "Piccante"] },
+    { name: "Soda al Pompelmo", type: "Soft Drink", flavors: ["Pompelmo", "Agrumi"] },
+    { name: "Liquore allo Zenzero", type: "Liquore", flavors: ["Zenzero", "Piccante", "Dolce"] },
+];
+
+const bottleContainer = document.getElementById('bottle-container');
+const filterContainer = document.getElementById('filter-container');
+const searchBar = document.getElementById('searchBar');
+
+let activeTypeFilter = 'All';
+
+function renderBottles(filter = '', typeFilter = 'All') {
+    bottleContainer.innerHTML = '';
+    const lowercasedFilter = filter.toLowerCase();
+
+    const filteredBottles = bottles.filter(bottle => {
+        const typeMatch = typeFilter === 'All' || bottle.type === typeFilter;
+        
+        const textMatch = lowercasedFilter === '' ||
+            bottle.name.toLowerCase().includes(lowercasedFilter) ||
+            bottle.type.toLowerCase().includes(lowercasedFilter) ||
+            bottle.flavors.some(f => f.toLowerCase().includes(lowercasedFilter));
+            
+        return typeMatch && textMatch;
+    });
+
+    if (filteredBottles.length === 0) {
+        bottleContainer.innerHTML = '<p>Nessuna bottiglia trovata.</p>';
+    }
+
+    filteredBottles.forEach(bottle => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        
+        const typeBadges = `<span class="badge type">${bottle.type}</span>`;
+        const flavorBadges = bottle.flavors.map(f => `<span class="badge flavor">${f}</span>`).join('');
+
+        card.innerHTML = `
+            <img src="https://via.placeholder.com/280x200.png?text=${encodeURIComponent(bottle.name)}" alt="${bottle.name}">
+            <h2>${bottle.name}</h2>
+            <div class="badge-container">
+                ${typeBadges}
+                ${flavorBadges}
+            </div>
+        `;
+        bottleContainer.appendChild(card);
+    });
+}
+
+function setupFilters() {
+    const types = ['All', ...new Set(bottles.map(b => b.type).sort())];
+    
+    types.forEach(type => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn';
+        btn.textContent = type;
+        btn.dataset.type = type;
+        if (type === 'All') {
+            btn.classList.add('active');
+        }
+        btn.addEventListener('click', () => {
+            activeTypeFilter = type;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderBottles(searchBar.value, activeTypeFilter);
+        });
+        filterContainer.appendChild(btn);
+    });
+}
+
+
+searchBar.addEventListener('keyup', () => {
+    renderBottles(searchBar.value, activeTypeFilter);
+});
+
+// Initial render
+document.addEventListener('DOMContentLoaded', () => {
+    setupFilters();
+    renderBottles();
+});
+
+</script>
+</body>
+</html>
