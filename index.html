@@ -12,7 +12,7 @@
             margin: 0;
             padding: 20px;
         }
-        header { text-align: center; padding: 40px 0; }
+        header { text-align: center; padding: 0px 0; }
         h1 { color: #d4af37; margin-bottom: 10px; }
         .navbar { display: flex; justify-content: center; gap: 20px; background-color: #262626; padding: 15px 0; margin-bottom: 40px; border-top: 1px solid #333; border-bottom: 1px solid #333; }
         .nav-link { color: #bbb; text-decoration: none; font-size: 1.1em; font-weight: bold; padding: 8px 16px; border-radius: 4px; transition: all 0.3s ease; }
@@ -27,7 +27,7 @@
         .filter-btn.active { background-color: #d4af37; color: #1a1a1a; }
 
         .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
-        .card { background-color: #262626; border-radius: 12px; padding: 20px; border: 1px solid #333; transition: transform 0.2s, opacity 0.3s; opacity: 1; }
+        .card { background-color: #262626; justify-items: center; border-radius: 12px; padding: 20px; border: 1px solid #333; transition: transform 0.2s, opacity 0.3s; opacity: 1; }
         .card.hidden { transform: scale(0.9); opacity: 0; display: none; }
         .card:hover { transform: translateY(-5px); border-color: #d4af37; }
         .card img { width: 100%; height: 200px; object-fit: contain; background: #111; border-radius: 8px; margin-bottom: 15px; }
@@ -190,7 +190,6 @@ function renderBottles(filter = '', typeFilter = 'All') {
         const flavorBadges = bottle.flavors.map(f => `<span class="badge flavor">${f}</span>`).join('');
 
         card.innerHTML = `
-            <img src="https://via.placeholder.com/280x200.png?text=${encodeURIComponent(bottle.name)}" alt="${bottle.name}">
             <h2>${bottle.name}</h2>
             <div class="badge-container">
                 ${typeBadges}
